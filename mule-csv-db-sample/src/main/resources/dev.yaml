@@ -1,5 +1,5 @@
 http:
-  post:"8081"
+  post: "8081"
 db:
   host : "localhost"
   port : "
