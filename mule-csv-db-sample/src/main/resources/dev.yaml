@@ -1,0 +1,7 @@
+http:
+  post:"8081"
+db:
+  host : "localhost"
+  port : "
+  dbname : "mysql"
+  password: "
