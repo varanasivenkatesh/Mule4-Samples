@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d64b7f5-a6b7-487a-862f-f49302ea98b6" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="c4f0cf72-d192-4d38-9318-e26a15cf6552" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root@123" database="mysql"/>
+	</db:config>
+	<flow name="mule-error-sampleFlow" doc:id="e546aa38-82d4-4c81-8515-125461f75ba5" >
+		<http:listener doc:name="Listener" doc:id="5f0e4a49-dc3e-4afa-a637-538c38a7c593" config-ref="HTTP_Listener_config" path="Get-Error"/>
+		<db:select doc:name="Select" doc:id="f8933add-cd22-4951-9780-3eb9acbcbfe4" config-ref="Database_Config">
+			<db:sql >select sno1 from mysql.student</db:sql>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="f5837eb9-821f-4303-b7f1-2beff50590fe" message="after select"/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="ea45c658-0779-40c5-8840-d4a80e4a0310" >
+				<ee:transform doc:name="Transform Message" doc:id="2e47adbd-72ff-4a3f-8ab6-80100ecc38d2" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	message : "error"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

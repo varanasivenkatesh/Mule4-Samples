@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="Employee" format="json">
+      <types:shape format="weave" example="examples/Employee.json"><![CDATA[%dw 2.0
+
+type Employee = {|
+  employess: Array<{|    idno: String,     firstname: String,     lastname: String  |}>
+|} {"example": "{\"employess\":[{\"idno\":\"1\",\"firstname\":\"venkatesh\",\"lastname\":\"varanasi\"},{\"idno\":\"2\",\"firstname\":\"Ramesh\",\"lastname\":\"Radhod\"}]}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+</types:mule>

@@ -1,0 +1,17 @@
+{
+  "employess":[
+
+    {
+       "idno" : "1",
+       "firstname" : "venkatesh",
+       "lastname" : "varanasi"
+    },
+
+    {
+      "idno" : "2",
+      "firstname" : "Ramesh",
+      "lastname" : "Radhod"
+    }
+
+  ]
+}

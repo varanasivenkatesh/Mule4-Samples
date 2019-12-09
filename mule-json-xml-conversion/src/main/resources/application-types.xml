@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="Employees" format="json">
+      <types:shape format="weave" example="examples/Employee.json"><![CDATA[%dw 2.0
+
+type Employees = {|
+  employess: Array<{|    idno: String,     firstname: String,     lastname: String  |}>
+|} {"example": "{\"employess\":[{\"idno\":\"1\",\"firstname\":\"venkatesh\",\"lastname\":\"varanasi\"},{\"idno\":\"2\",\"firstname\":\"Ramesh\",\"lastname\":\"Radhod\"}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="emp" format="xml">
+      <types:example format="xml" element="Employee" location="examples/EMPLOYEE-1.XML"/>
+    </types:type>
+    <types:type name="emp2" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a38ddff8-3238-42be-a0b2-b3746470e0a3">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="Employees"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="emp"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
